@@ -1,0 +1,97 @@
+---
+- name: Windows Build and config 
+  hosts: all
+  tasks:
+  #list of common apps
+    - name: Install Firefox
+      win_chocolatey:
+        name: firefox
+        state: present
+    - name: Install Chrome
+      win_chocolatey:
+        name: googlechrome
+        state: present
+    - name: Install Adobe Reader
+      win_chocolatey:
+        name: adobereader
+        state: present
+    - name: Install WinRar
+      win_chocolatey:
+        name: winrar
+        state: present
+    - name: Install git
+      win_chocolatey:
+        name: git
+        state:present
+    - name: Install NotePad++
+      win_chocolatey:
+        name: notepadplusplus.install
+        state: present
+    - name: Install putty 
+      win_chocolatey:
+        name: putty
+        state: present
+    - name: Install Python3
+      win_chocolatey:
+        name: python3
+        state: present
+    - name: Install Python2
+      win_chocolatey:
+        name: python2
+        state: present
+    - name: Install Filezilla
+      win_chocolatey:
+        name: filezilla
+        state: present    
+    - name: Install MobaXTerm 
+      win_chocolatey:
+        name: mobaxterm
+        state: present    
+    - name: Install Dropbox 
+      win_chocolatey:
+        name: dropbox
+        state: present   
+    - name: Install Google Backup and Sync 
+      win_chocolatey:
+        name: google-backup-and-sync
+        state: present     
+    - name: Install iDrive Backup 
+      win_package:
+        path: https://www.idrive.com/downloads/msi/IDriveWinSetup.msi
+        state: present
+    
+      # Check if there are missing updates
+    – block:
+        – name: Check for missing updates.
+          win_updates: state=searched
+          register: update_count
+ 
+    #Install missing updates only if at least one is missing
+    – block:
+        – name: Install missing updates.
+          win_updates:
+            category_names:
+              – Application
+              – Connectors
+              – DefinitionUpdates
+              – DeveloperKits
+              – FeaturePacks
+              – Guidance
+              – ServicePacks
+              – Tools
+              – UpdateRollups
+              – CriticalUpdates
+              – SecurityUpdates
+          register: update_result
+        – name: Reboot, if needed.
+          win_reboot:
+          when: update_result.reboot_required
+      when: update_count.found_update_count|int >= 1
+    #add local admin user
+    - name: Add user
+      win_user:
+        name: (USERNAME)
+        password: (password)
+        state: present
+        groups:
+          - Users
