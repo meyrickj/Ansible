@@ -59,7 +59,27 @@
       win_package:
         path: https://www.idrive.com/downloads/msi/IDriveWinSetup.msi
         state: present
-    
+    - name: Install Steam
+      win_chocolatey:
+        name: steam
+        state: present
+    - name: Install teamviewer 
+      win_chocolatey:
+        name: teamviewer
+        state: present
+    - name: Install spotify 
+      win_chocolatey:
+       name: spotify
+       state: present
+    - name: Install awscli 
+      win_chocolatey:
+       name: awscli
+       state: present
+    - name: Install vagrant 
+      win_chocolatey:
+       name: vagrant
+       state: present
+
       # Check if there are missing updates
     – block:
         – name: Check for missing updates.
@@ -95,3 +115,17 @@
         state: present
         groups:
           - Users
+    - name: Install win 10 linux subsystem 
+      win_shell: Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+# Sending an e-mail using Gmail SMTP servers
+- mail:
+    host: smtp.gmail.com
+    port: 587
+    username: username@gmail.com
+    password: mysecret
+    to: John Smith <john.smith@example.com>
+    subject: Ansible-report
+    body: 'System {{ ansible_hostname }} has been successfully provisioned.' {{ results.stdout_lines }}
+  delegate_to: localhost
+
+        
