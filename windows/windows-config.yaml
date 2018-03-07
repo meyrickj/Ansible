@@ -22,7 +22,7 @@
     - name: Install git
       win_chocolatey:
         name: git
-        state:present
+        state: present
     - name: Install NotePad++
       win_chocolatey:
         name: notepadplusplus.install
@@ -55,10 +55,6 @@
       win_chocolatey:
         name: google-backup-and-sync
         state: present     
-    - name: Install iDrive Backup 
-      win_package:
-        path: https://www.idrive.com/downloads/msi/IDriveWinSetup.msi
-        state: present
     - name: Install Steam
       win_chocolatey:
         name: steam
@@ -79,53 +75,17 @@
       win_chocolatey:
        name: vagrant
        state: present
+    - name: Running Windows Update
+      win_updates:
+        category_names: ['SecurityUpdates','CriticalUpdates','UpdateRollups', 'Updates', 'DefinitionUpdates']
+      register: result
 
-      # Check if there are missing updates
-    – block:
-        – name: Check for missing updates.
-          win_updates: state=searched
-          register: update_count
- 
-    #Install missing updates only if at least one is missing
-    – block:
-        – name: Install missing updates.
-          win_updates:
-            category_names:
-              – Application
-              – Connectors
-              – DefinitionUpdates
-              – DeveloperKits
-              – FeaturePacks
-              – Guidance
-              – ServicePacks
-              – Tools
-              – UpdateRollups
-              – CriticalUpdates
-              – SecurityUpdates
-          register: update_result
-        – name: Reboot, if needed.
-          win_reboot:
-          when: update_result.reboot_required
-      when: update_count.found_update_count|int >= 1
-    #add local admin user
-    - name: Add user
-      win_user:
-        name: (USERNAME)
-        password: (password)
-        state: present
-        groups:
-          - Users
+    # output results
+    - debug: var=result
+    
+    # reboot only if required
+    - win_reboot:
+      when: result.reboot_required
+
     - name: Install win 10 linux subsystem 
       win_shell: Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
-# Sending an e-mail using Gmail SMTP servers
-- mail:
-    host: smtp.gmail.com
-    port: 587
-    username: username@gmail.com
-    password: mysecret
-    to: John Smith <john.smith@example.com>
-    subject: Ansible-report
-    body: 'System {{ ansible_hostname }} has been successfully provisioned.' {{ results.stdout_lines }}
-  delegate_to: localhost
-
-        
