@@ -1,5 +1,7 @@
-    
-    
+---
+- name: Windows Build and config 
+  hosts: all
+  tasks:      
     - name: Install Steam
       win_chocolatey:
         name: steam
