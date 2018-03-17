@@ -11,5 +11,5 @@
       src: C:\Apps\Apro
       dest: T:\Agency_Pro_Backup
       recurse: yes
-      flags: /e /mir /np /log:T:\Agency_Pro_Backup\backup_log.txt
+      flags: /e /mir /np log:T:\Agency_Pro_Backup\backup_log.txt
     return: msg
