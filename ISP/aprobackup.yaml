@@ -1,6 +1,5 @@
 ---
-- hosts: ispserv-apps
-  gather_facts: no
+- hosts: all
   tasks:
   - name: Test system connection
     wait_for_connection:
