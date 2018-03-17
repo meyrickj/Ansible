@@ -1,5 +1,5 @@
 ---
-- hosts: apro-server
+- hosts: isp-apps
   gather_facts: no
   tasks:
   - name: Test system connection
