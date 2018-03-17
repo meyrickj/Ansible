@@ -1,0 +1,16 @@
+---
+- hosts: apro-server
+  gather_facts: no
+  tasks:
+  - name: Test system connection
+    wait_for_connection:
+      timeout: 20
+    tags: backup 
+  
+  - name: Backup Agency Pro 
+    win_robocopy:
+      src: C:\Apps\Apro
+      dest: T:\Agency_Pro_Backup
+      recurse: yes
+      flags: /e /mir /np /log:T:\Agency_Pro_Backup\backup_log.txt
+    return: msg
