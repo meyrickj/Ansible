@@ -8,8 +8,8 @@
   
   - name: Backup Agency Pro 
     win_robocopy:
-      src: C:\Apps\Apro
-      dest: T:\Agency_Pro_Backup
+      src: \\ispserv-apps\Apps$\Apro
+      dest: \\ispserv\t-drive\Agency_Pro\Backup
       recurse: yes
       flags: /e /mir /np 
     return: msg
