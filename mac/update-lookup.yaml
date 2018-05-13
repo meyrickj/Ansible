@@ -1,0 +1,7 @@
+---
+- name: MacUpdates
+  hosts: all 
+
+  tasks:
+    - name: check for updates
+      command: softwareupdate -l
