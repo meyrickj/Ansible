@@ -1,4 +1,7 @@
 ---
+- name: windows updates 
+  hosts: all 
+
   tasks:
     - name: Install all security, critical, and rollup updates
       win_updates:
