@@ -3,5 +3,5 @@
   hosts: all 
 
   tasks:
-    - name: check for updates
+    - name: Install All Mac updates
       command: sudo softwareupdate -iva
