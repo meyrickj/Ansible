@@ -4,4 +4,4 @@
 
   tasks:
     - name: Install All Mac updates
-      command: sudo softwareupdate -iva
+      command: sudo softwareupdate -ia && sudo reboot
