@@ -1,0 +1,12 @@
+---
+- name: Windows Dell Command Configure
+  hosts: servers
+  tasks:
+    - name: Disable Deep sleep in bios
+      win_command: C:\Program Files (x86)\Dell\Command Configure\X86_64 cctk --deepsleepctrl deepsleepctrl=disable
+      args:
+        executable: cmd.exe
+    - name: Enable wake on lan in bios
+      win_command: C:\Program Files (x86)\Dell\Command Configure\X86_64 cctk.exe --wakeonlan=lanorwlan wakeonlan=lanorwlan
+      args:
+        executable: cmd.exe
