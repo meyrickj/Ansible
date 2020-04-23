@@ -1,0 +1,11 @@
+- hosts: windows
+  gather_facts: yes
+  tasks:  
+  - name: Install dell command config on {{ inventory_hostname }}
+    win_package:
+      path: \\SERVERNAME\apps$\Deployment\Dell-Command-Configure_FVGF9_WIN_3.3.0.314_A00.exe
+      product_id: '{DF3680A9-B4C6-48D1-ACEF-0FF004446314}'
+      arguments: /s
+      state: present
+      user_name: {{ admin-username }}
+      user_password: {{ password }}
