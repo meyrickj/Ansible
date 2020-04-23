@@ -22,7 +22,7 @@
         name: all
         state: latest
 
-    - name: Send Windows Patched Notification to Teams
+    - name: Send 3rd party Patched Notification to Teams
       win_shell: |
         $uri = 'https://outlook.office.com/webhook/'
         $body = ConvertTo-JSON @{
