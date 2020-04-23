@@ -1,0 +1,18 @@
+---
+- name:  Windows Update Check
+  hosts: windows-servers
+  gather_facts: false
+  tasks:
+    - name: Check for updates on {{ inventory_hostname }}
+      win_updates:
+        category_names: ['SecurityUpdates','CriticalUpdates','UpdateRollups', 'Updates', 'DefinitionUpdates']
+        state: searched
+        log_path: '\\SERVER\onedrive$\automation\logs\{{ inventory_hostname }}-winUpdates-avalable.txt'
+        
+    - name: Send  Windows update Notification to Teams
+      win_shell: |
+        $uri = 'https://outlook.office.com/webhook/'
+        $body = ConvertTo-JSON @{
+            text = ' Updates searched on {{ inventory_hostname }} check logs on C:\ drive'
+        }
+        Invoke-RestMethod -uri $uri -Method Post -body $body -ContentType 'application/json'
