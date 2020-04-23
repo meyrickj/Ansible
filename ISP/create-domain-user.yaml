@@ -1,0 +1,28 @@
+---
+- name:  Create new domain user
+  hosts: windows-dc
+  gather_facts: false
+  vars_prompt:
+    - name: username
+      prompt: "Enter domain username"
+      private: no 
+    - name: firstname
+      prompt: "Enter first name of user"
+      private: no  
+    - name: lastname
+      prompt: "Enter last name of user"
+      private: no
+    - name: password
+      propmpt: "Enter User Password"
+
+  tasks:
+    - name: Add Domain user
+      win_domain_user:
+        name: '{{ username }}'
+        firstname: '{{ firstname }}'
+        surname: '{{ lastname }}'
+        password: '{{ password }}'
+        state: present
+        path: ou= ,ou= ,dc=,dc=
+        groups:
+          - securityGroup
